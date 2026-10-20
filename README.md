@@ -45,4 +45,8 @@ Gallery minmax choice: I chose minmax(130, 1fr)
 Mock Up:
 [Image of Original Mock-Up](images/MockUp.png)
 
+Primary Changes / Differences:
+1. The logos for the icons were a bit inconvinient to add and would require additional content such as the OCN. I thought it a bit annoying - so I opted to use type face for it instead.
+2. The sandwich menu was not exactly the most accurate version as I opted to use an image screenshot (and of course it is not animated either). 
+
 
