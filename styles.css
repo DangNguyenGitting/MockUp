@@ -5,71 +5,81 @@
   --text: #2A2A2A;
   --icon-inside: #766A5B;
   --icon-outline: #FFEBF3;
-
-  --gap: 12px;    /*card carousel spacing per the readme*/
+ 
+  --gap: 12px;       /* card carousel spacing per the readme */
   --section: 20px;   /* the spacing section per the readme */
 }
-
+ 
 * {
   box-sizing: border-box;
 }
-
+ 
+img {
+  max-width: 100%;
+  height: auto;
+}
+ 
 body {
   margin: 8px;   /* 8px margin per the readme */
   font-family: "Barlow", sans-serif;
   background: var(--bg);
   color: var(--text);
-  font-size: 10px;
-
-  /* Grid is the best option because the three big page regions are stacked in named areas.*/
+  font-size: 1rem;   
+ 
+  /* Grid is the best option because the three big page regions are stacked in named areas. */
   display: grid;
   grid-template-areas:
     "header"
     "main"
     "footer";
   grid-template-rows: auto 1fr auto;
-  min-height: calc(100vh - 16px);
+ 
+  min-height: calc(100vh - 16px);    
+  min-height: calc(100dvh - 16px);   /* dvh so the mobile address bar doesn't cause overflow */
 }
-
+ 
 h2 {
-  font-size: 20px;
-  margin:var(--gap);
+  /* fluid heading: 20px on small phones, scaling up to 32px */
+  font-size: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+  margin: 0 0 var(--gap);
 }
-
+ 
 p {
   margin: 0;
 }
-
+ 
 /* Header */
 .site-header {
   grid-area: header;
-
+ 
   /* single-dim. flexbox is the best option because everything is the same row. */
   display: flex;
   align-items: center;
   gap: var(--gap);
   padding: var(--gap);
 }
-
+ 
 .logo {
   /* flexbox stacks the image on top of the text and centers both */
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  margin: 0 auto;
   text-align: center;
+  flex: 1;
+  min-width: 0;   /* lets the logo shrink instead of pushing icons off a 320px screen */
+  margin: 0;
 }
-
+ 
 .logo img {
   height: 40px;
-  width: auto;  
+  width: auto;
 }
-
+ 
 .logo p {
-  font-size: 11px;
+  font-size: 0.75rem;
 }
-
+ 
 .menu-btn {
   /* single-dim. flexbox because there's a stack */
   display: flex;
@@ -78,21 +88,20 @@ p {
   background: none;
   border: none;
   padding: 0;
-  margin-right: auto;
   cursor: pointer;
-  width: 30px;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
 }
-
-.menu-btn span {
-  display: block;
-  width: 24px;
-  height: 5px;
-  background: var(--text);
+ 
+.menu-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
-
-
+ 
 .icon-circle {
-  /* single-dim.flexbox centers the icons in the "button" */
+  /* single-dim. flexbox centers the icons in the "button" */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,8 +114,9 @@ p {
   text-decoration: none;
   font-size: 10px;
   font-weight: 600;
+  flex-shrink: 0;
 }
-
+ 
 .icon-circle.small {
   width: 24px;
   height: 24px;
@@ -115,22 +125,22 @@ p {
   border-color: var(--icon-outline);
   font-size: 8px;
 }
-
+ 
 /* Main */
 .site-main {
   grid-area: main;
-
-  /* single-dim.flexbox because the entire main is the "same" looking sections stacked on each other */
+ 
+  /* single-dim. flexbox because the entire main is the "same" looking sections stacked on each other */
   display: flex;
   flex-direction: column;
   gap: var(--section);
   padding: var(--section) 0;
 }
-
+ 
 .placeholder {
   background: var(--placeholder);
 }
-
+ 
 .hero {
   /* single-dim. flexbox for the centering of content in the hero image */
   display: flex;
@@ -138,32 +148,33 @@ p {
   align-items: center;
   justify-content: center;
   gap: var(--gap);
-  min-height: 140px;
+  height: 100vh; 
+  height: 100dvh;   /* full-screen hero: dvh tracks the visible area as the mobile address bar shows/hides */
   background: var(--placeholder);
 }
-
+ 
 .slogan {
-  font-size: 15px;
+  font-size: 1.125rem;
   font-weight: 600;
+  text-align: center;
 }
-
+ 
 .btn {
   background: var(--dark);
   color: var(--icon-outline);
-  padding: 6px 24px;
+  padding: 10px 24px;   /* taller tap target for touch */
   text-decoration: none;
-  font-size: 10px;
+  font-size: 0.875rem;
   font-weight: 600;
 }
-
+ 
 .story {
-  /* multi-dimensional layout for this section. grid. */
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: var(--gap);
   align-items: start;
 }
-
+ 
 .video {
   /* to center the play button */
   display: flex;
@@ -172,76 +183,121 @@ p {
   aspect-ratio: 1 / 1;
   font-size: 40px;
 }
-
-.story-text p {
-  font-size: 10px;
-  line-height: 1.4;
+ 
+.story-text {
+  max-width: 65ch;   /* comfortable line length */
 }
-
-/*Carousel*/
+ 
+.story-text p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+ 
 .gallery {
-  /* grid - auto-fit adds or removes columns as the page width changes.
-     160px is the floor; see README for how it was chosen. */
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  grid-template-columns: 1fr;
   gap: var(--gap);
 }
-
+ 
+/* Reusable card component: the slot is the container, the card responds to the slot's width */
+.card-slot {
+  container: card / inline-size;
+}
+ 
 .card {
-  /* grid and subgrid - every card shares the same two rows (image, caption). Caption
-  should always line up. */
   display: grid;
-  grid-template-rows: subgrid;
-  grid-row: span 2;
   row-gap: 8px;
 }
-
+ 
 .card .placeholder {
   aspect-ratio: 1 / 1;
 }
-
+ 
 .caption {
-  font-size: 11px;
+  font-size: 0.875rem;
   font-weight: 600;
   text-align: center;
   text-transform: uppercase;
 }
+ 
 
+@container card (min-width: 400px) {
+  .card .placeholder {
+    aspect-ratio: 4 / 3;
+  }
+ 
+  .caption {
+    font-size: 1rem;
+  }
+}
+ 
+/* Featured row: same card in a wide slot and a narrow slot. */
+.feature {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+}
+ 
 /* Footer */
 .site-footer {
   grid-area: footer;
-
+ 
   /* to adjust the links on the left, contact on the right in one row */
   display: flex;
+  flex-wrap: wrap;   /* contact drops below the links if they don't fit on a narrow phone */
   justify-content: space-between;
   align-items: flex-start;
   gap: var(--gap);
   padding: var(--gap);
   background: var(--dark);
   color: var(--icon-outline);
-  font-size: 10px;
+  font-size: 0.75rem;
 }
-
+ 
 .footer-links {
   margin: 0;
   padding-left: 16px;
   line-height: 1.4;
 }
-
+ 
 .footer-links a {
   color: var(--icon-outline);
   text-decoration: none;
 }
-
+ 
 .contact-title {
-  font-size: 10px;
+  font-size: 0.75rem;
   font-weight: 600;
   text-align: center;
   margin-bottom: 6px;
 }
-
+ 
 .contact-icons {
   /* three icons in a row */
   display: flex;
   gap: 8px;
+}
+ 
+/* Mobile-first breakpoints: min-width only */
+@media (min-width: 430px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+ 
+@media (min-width: 530px) {
+  .story {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+ 
+@media (min-width: 700px) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+ 
+  .feature {
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
+  }
 }
